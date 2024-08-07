@@ -9,16 +9,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:somanos/drumee-schemas-setup.git"
+    "url": "git@github.com:drumee/schemas-setup.git"
   },
   "bugs": {
-    "url": "https://github.com/somanos/drumee-schemas-setup/issues"
+    "url": "https://github.com/drumee/schemas-setup/issues"
   },
   "author": "Somanos Sar <somanos@drumee.com>",
   "license": "AGPL V3",
   "dependencies": {
-    "@drumee/server-core": "^1.0.2",
-    "@drumee/server-essentials": "^1.0.0",
+    "@drumee/server-core": "^1.0.4",
+    "@drumee/server-essentials": "^1.0.4",
     "check-disk-space": "^3.4.0",
     "crypto": "^1.0.1",
     "jsonfile": "^5.0.0",
