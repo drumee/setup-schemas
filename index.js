@@ -99,6 +99,7 @@ async function start() {
   let mfs = new Mfs({ db_name });
   await mfs.importContent("content.drumee.com/Wallpapers",);
   await mfs.importTutorial();
+  /* TO DO: import or create robot.txt */
   await afterInstall(reset_link, domain)
 }
 

@@ -1,6 +1,6 @@
 {
-  "name": "@drumee/schemas-setup",
-  "version": "1.0.3",
+  "name": "@drumee/setup-schemas",
+  "version": "1.0.0",
   "description": "Drumee Schemas Setup Utilities",
   "main": "index.js",
   "scripts": {
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:drumee/schemas-setup.git"
+    "url": "git@github.com:drumee/setup-schemas.git"
   },
   "bugs": {
-    "url": "https://github.com/drumee/schemas-setup/issues"
+    "url": "https://github.com/drumee/setup-schemas/issues"
   },
   "author": "Somanos Sar <somanos@drumee.com>",
   "license": "AGPL V3",
