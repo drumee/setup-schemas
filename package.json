@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "configure": "./index.js",
+    "dev": "drumee-server-devel",
     "release": "git push && npm publish --access public && npm version patch"
   },
   "repository": {
@@ -18,6 +19,7 @@
   "license": "AGPL V3",
   "dependencies": {
     "@drumee/server-core": "^1.0.4",
+    "@drumee/server-dev-tools": "^1.1.4",
     "@drumee/server-essentials": "^1.0.4",
     "check-disk-space": "^3.4.0",
     "crypto": "^1.0.1",
