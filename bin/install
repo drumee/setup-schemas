@@ -20,9 +20,9 @@ if [ -d "$run_dir" ]; then
   mkdir -p ${DRUMEE_DB_DIR}/orig
   mv $run_dir $orig
 fi
+
+chown -R mysql:mysql $DRUMEE_DB_DIR
 mkdir -p $run_dir
-chown -R mysql:mysql $run_dir
-mkdir -p /var/log/drumee/ 
 
 log=/var/log/drumee/seeds.log
 date > $log
@@ -34,14 +34,19 @@ echo Copying schemas seeds
 mariabackup --copy-back --target-dir=$script_dir/seeds >> ${log} 2>>${log}
 
 echo Preparing db from $run_dir
-chown -R mysql:mysql $DRUMEE_DB_DIR
+chmod 750 $run_dir
+chown -R mysql:mysql $run_dir
 
-# chmod -R o-rwx $run_dir
-# echo Updating permission
-# find  $DRUMEE_DB_DIR -type d -exec chmod u+rwx {} \;
-# find  $DRUMEE_DB_DIR -type d -exec chmod g+rx {} \;
-# find  $DRUMEE_DB_DIR -type f -exec chmod g+r {} \;
-# find  $DRUMEE_DB_DIR -type f -exec chmod u+rw {} \;
+# Ensure permission is properly set
+permission=$(stat $run_dir | grep "750")
+
+if [ "$permission" = "" ]; then
+  echo Updating permission
+  find  $DRUMEE_DB_DIR -type d -exec chmod u+rwx {} \;
+  find  $DRUMEE_DB_DIR -type d -exec chmod g+rx {} \;
+  find  $DRUMEE_DB_DIR -type f -exec chmod g+r {} \;
+  find  $DRUMEE_DB_DIR -type f -exec chmod u+rw {} \;
+fi 
 
 service mariadb start
 
