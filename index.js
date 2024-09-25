@@ -93,10 +93,10 @@ async function start() {
   await org.populate();
   await org.createNobody();
   await org.createGuest();
-  const { media } = await org.createSystemUser();
+  const { media, vhost } = await org.createSystemUser();
   const { reset_link, domain } = await org.createAdmin(media);
   let { db_name } = media;
-  let mfs = new Mfs({ db_name });
+  let mfs = new Mfs({ db_name,  vhost});
   await mfs.importContent("content.drumee.com/Wallpapers",);
   await mfs.importTutorial();
   /* TO DO: import or create robot.txt */
