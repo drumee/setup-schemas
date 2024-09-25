@@ -21,6 +21,7 @@ if [ -d "$run_dir" ]; then
   mv $run_dir $orig
 fi
 
+chmod 750 $DRUMEE_DB_DIR 
 chown -R mysql:mysql $DRUMEE_DB_DIR
 mkdir -p $run_dir
 
@@ -33,9 +34,9 @@ echo
 echo Copying schemas seeds
 mariabackup --copy-back --target-dir=$script_dir/seeds >> ${log} 2>>${log}
 
-echo Preparing db from $run_dir
-chmod 750 $run_dir
-chown -R mysql:mysql $run_dir
+echo Preparing db from $run_dir                                                  
+chmod 750 $run_dir                                                               
+chown -R mysql:mysql $run_dir                                                    
 
 # Ensure permission is properly set
 permission=$(stat $run_dir | grep "750")
