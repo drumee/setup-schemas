@@ -34,7 +34,8 @@ echo Copying schemas seeds
 mariabackup --copy-back --target-dir=$script_dir/seeds >> ${log} 2>>${log}
 
 echo Preparing db from $run_dir
-chown -R mysql:mysql $run_dir
+chown -R mysql:mysql $DRUMEE_DB_DIR
+
 # chmod -R o-rwx $run_dir
 # echo Updating permission
 # find  $DRUMEE_DB_DIR -type d -exec chmod u+rwx {} \;
