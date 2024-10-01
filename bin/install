@@ -62,3 +62,8 @@ echo "Drumee Schemas setup is now completed!"
 echo "An email is being sent to $ADMIN_EMAIL"
 sleep 10
 node bin/acknowledge.js
+
+# Apply patches schemas, if any
+if [ -x ]/var/lib/drumee/patches/patch-from-manifest ]; then
+  /var/lib/drumee/patches/patch-from-manifest
+fi
