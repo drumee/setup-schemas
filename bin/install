@@ -18,6 +18,9 @@ run_dir=${DRUMEE_DB_DIR}/run
 if [ -d "$run_dir" ]; then
   orig=${DRUMEE_DB_DIR}/orig/$(date +%Y-%m-%d)
   mkdir -p ${DRUMEE_DB_DIR}/orig
+  if [ -d "$orig" ]; then
+    rm -rf $orig
+  fi
   mv $run_dir $orig
 fi
 
