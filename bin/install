@@ -60,6 +60,7 @@ cd $base_dir
 node populate.js
 chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_ROOT
 chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_DATA_DIR
+chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_RUNTIME_DIR/tmp
 echo "Drumee Schemas setup is now completed!"
 
 echo "An email is being sent to $ADMIN_EMAIL"

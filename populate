@@ -42,5 +42,6 @@ mariadb -e "GRANT ALL PRIVILEGES ON *.* TO '$DRUMEE_SYSTEM_USER'@'localhost'"
 node populate.js
 
 chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_DATA_DIR
+chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_RUNTIME_DIR/tmp
 
 echo "Drumee Schemas setup is now completed!"
