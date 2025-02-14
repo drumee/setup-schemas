@@ -20,7 +20,7 @@
   "dependencies": {
     "@drumee/server-core": "^1.0.4",
     "@drumee/server-dev-tools": "^1.1.4",
-    "@drumee/server-essentials": "^1.1.11",
+    "@drumee/server-essentials": "^1.1.12",
     "check-disk-space": "^3.4.0",
     "crypto": "^1.0.1",
     "jsonfile": "^5.0.0",
