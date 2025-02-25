@@ -28,6 +28,12 @@ chmod 750 $DRUMEE_DB_DIR
 chown -R mysql:mysql $DRUMEE_DB_DIR
 mkdir -p $run_dir
 
+#Ensure db server to log here, whatever OS log style
+mysql_dir=/var/log/mysql
+mkdir -p $mysql_dir
+touch $mysql_dir/error.log
+chown -R mysql:mysql $mysql_dir
+
 log=/var/log/drumee/seeds.log
 date > $log
 
