@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set +e
 script_dir=$(dirname $(readlink -f $0))
 base_dir=$(dirname $script_dir)
 cd $script_dir
@@ -63,7 +63,7 @@ service mariadb start
 mariadb -e "CREATE OR REPLACE USER '$DRUMEE_SYSTEM_USER'@'localhost' IDENTIFIED VIA unix_socket"
 mariadb -e "GRANT ALL PRIVILEGES ON *.* TO '$DRUMEE_SYSTEM_USER'@'localhost'"
 
-collation=$(mariadb -e "show variables like 'character_set_collations';")
+collation=$(mariadb -e "show variables like 'character_set_collations';"|tail -1)
 if [ "$collation" != "" ]; then
   mariadb -e "set GLOBAL character_set_collations='utf8mb4=utf8mb4_general_ci'"
 fi
