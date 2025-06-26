@@ -20,12 +20,13 @@
   "dependencies": {
     "@drumee/server-core": "^1.0.4",
     "@drumee/server-dev-tools": "^1.1.4",
-    "@drumee/server-essentials": "^1.0.13",
+    "@drumee/server-essentials": "^1.1.13",
     "check-disk-space": "^3.4.0",
     "crypto": "^1.0.1",
     "jsonfile": "^5.0.0",
     "lodash": "^4.17.21",
     "mariadb": "^3.0.2",
+    "punycode": "^2.3.1",
     "shelljs": "^0.8.5",
     "unique-names-generator": "^4.7.1"
   }
