@@ -1,6 +1,6 @@
 {
   "name": "@drumee/setup-schemas",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "Drumee Schemas Setup Utilities",
   "main": "index.js",
   "scripts": {
