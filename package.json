@@ -18,14 +18,14 @@
   "author": "Somanos Sar <somanos@drumee.com>",
   "license": "AGPL V3",
   "dependencies": {
-    "@drumee/server-core": "^1.1.29",
-    "@drumee/server-dev-tools": "^1.1.24",
-    "@drumee/server-essentials": "^1.2.2",
+    "@drumee/server-core": "^1.1.73",
+    "@drumee/server-dev-tools": "^1.1.33",
+    "@drumee/server-essentials": "^1.2.37",
+    "@drumee/shell": "^0.0.6",
     "check-disk-space": "^3.4.0",
     "crypto": "^1.0.1",
     "jsonfile": "^5.0.0",
     "lodash": "^4.17.21",
-    "mariadb": "^3.0.2",
     "punycode": "^2.3.1",
     "shelljs": "^0.8.5",
     "unique-names-generator": "^4.7.1"
