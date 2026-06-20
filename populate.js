@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const { join } = require("path");
+const { join, resolve } = require("path");
 const {
   create_user,
   get_tmpdb,
@@ -8,6 +8,11 @@ const {
 
 const Organization = require("./lib/organization");
 const Mfs = require("./lib/mfs");
+const Schema = require("./lib/schema");
+// Where the genesis entity templates (hub.sql / drumate.sql) are installed by the
+// drumee-schemas package. Used to stock the factory pool before accounts consume it.
+const GENESIS_DIR = process.env.GENESIS_DIR || "/var/lib/drumee/schemas/templates/factory";
+const POOL_COUNT = parseInt(process.env.POOL_COUNT || "10", 10);
 const CREDENTIAL_DIR = "/etc/drumee/credential";
 const POSTFIX_CREDENTIAL = join(CREDENTIAL_DIR, "postfix.json");
 const DB_CREDENTIAL = join(CREDENTIAL_DIR, "db.json");
@@ -85,12 +90,34 @@ async function afterInstall(link, domain) {
 /**
  * 
  */
+// Stock the hub/drumate entity pool from the genesis templates so that the
+// account creation below (drumate_create -> pickupEntity) has clean entities to
+// draw from instead of hitting EMPTY_FACTORY. Idempotent: tops each pool up to
+// POOL_COUNT (skips if the restored seed already provided one). create_entity
+// builds both the DB rows and the on-disk MFS root, so it must run on the target
+// host (mirrors deploy/docker/container-populate.js stockFactory).
+async function stockFactory(yp) {
+  for (const type of ["drumate", "hub"]) {
+    let free = 0;
+    try { free = Number(await yp.await_func("pool_free", type)) || 0; } catch (e) { free = 0; }
+    const need = Math.max(0, POOL_COUNT - free);
+    if (!need) { console.log(`Factory pool '${type}' already at ${free} — skipping`); continue; }
+    const script = resolve(GENESIS_DIR, `${type}.sql`);
+    for (let i = 0; i < need; i++) {
+      const s = new Schema({ type, yp, script });
+      await s.create_entity();
+    }
+    console.log(`Stocked ${need} '${type}' pool entities (now ${free + need})`);
+  }
+}
+
 async function start() {
   await prepare();
   new Cache();
   await Cache.load();
   const org = new Organization();
   await org.populate();
+  await stockFactory(org.yp);
   await org.createNobody();
   await org.createGuest();
   const { media, vhost } = await org.createSystemUser();
