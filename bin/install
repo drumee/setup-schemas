@@ -41,7 +41,13 @@ echo Extracting schemas seeds
 tar -xf /var/tmp/drumee/seeds.tgz --checkpoint=.50 --one-top-level=seeds
 echo
 echo Copying schemas seeds
-mariabackup --copy-back --target-dir=$script_dir/seeds >> ${log} 2>>${log}
+# Fail loud on the seed restore — the whole install is worthless without it, and
+# under `set +e` a missing mariabackup or a failed copy-back used to be swallowed
+# silently (empty DB, MariaDB won't start, populate can't connect).
+command -v mariabackup >/dev/null 2>&1 || { echo "FATAL: mariabackup not found — install the 'mariadb-backup' package" | tee -a ${log} >&2; exit 1; }
+if ! mariabackup --copy-back --target-dir=$script_dir/seeds >> ${log} 2>>${log}; then
+  echo "FATAL: seed restore (mariabackup --copy-back) failed — see ${log}" >&2; exit 1
+fi
 
 echo Preparing db from $run_dir                                                  
 chmod 750 $run_dir                                                               
@@ -69,7 +75,9 @@ if [ "$collation" != "" ]; then
 fi
 
 cd $base_dir
-node populate.js
+# populate.js creates the system accounts, stocks the factory pool and writes the
+# RSA keys — fatal if it fails (don't let `set +e` mark a half-empty DB "done").
+node populate.js || { echo "FATAL: populate.js failed — DB not fully initialized" >&2; exit 1; }
 chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_ROOT
 chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_DATA_DIR
 chown -R $DRUMEE_SYSTEM_USER:$DRUMEE_SYSTEM_GROUP $DRUMEE_RUNTIME_DIR/tmp
