@@ -66,6 +66,28 @@ fi
 
 service mariadb start
 
+# The seed is a physical snapshot carrying the system tables of whatever MariaDB
+# produced it, which need not be the server now running (Trixie ships 11.8). Debian
+# notices the mismatch and runs mariadb-upgrade on its own schedule — and that
+# rewrites mysql.proc, the very table populate.js hammers while loading the
+# routines. When the two overlap they deadlock outright:
+#
+#   thread A  DROP FUNCTION ...   holds a shared MDL on mysql.proc, waits for a
+#                                 table-level write lock
+#   thread B  ALTER TABLE proc    queued for an EXCLUSIVE MDL, ahead of A
+#
+# Neither can yield, and because lock_wait_timeout defaults to 86400 the install
+# does not fail — it hangs for 24 hours looking like a slow restore, with the log
+# stopped on an innocuous "Loading ... .sql" line.
+#
+# Running the upgrade to completion HERE removes the race by ordering rather than
+# by luck: once it returns, nothing else is left to contend for those tables.
+if command -v mariadb-upgrade >/dev/null 2>&1; then
+  echo "Upgrading system tables to the running server version"
+  mariadb-upgrade --force >> ${log} 2>&1 \
+    || echo "WARNING: mariadb-upgrade reported errors — see ${log}" >&2
+fi
+
 mariadb -e "CREATE OR REPLACE USER '$DRUMEE_SYSTEM_USER'@'localhost' IDENTIFIED VIA unix_socket"
 mariadb -e "GRANT ALL PRIVILEGES ON *.* TO '$DRUMEE_SYSTEM_USER'@'localhost'"
 
