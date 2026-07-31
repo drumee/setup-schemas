@@ -120,21 +120,21 @@ async function start() {
   await stockFactory(org.yp);
   await org.createNobody();
   await org.createGuest();
-  const { media, vhost } = await org.createSystemUser();
+  const { media } = await org.createSystemUser();
   const { reset_link, domain } = await org.createAdmin(media);
-  let { db_name } = media;
-  let mfs = new Mfs({ db_name,  vhost});
+  // let { db_name } = media;
+  // let mfs = new Mfs({ db_name,  vhost});
   // Wallpaper/tutorial import is cosmetic and hits the network (content.drumee.com,
   // drumee.com). Bound it so a slow/offline host can't hang the whole install, and
   // never let it fail the install — the RSA keys in afterInstall() below MUST run.
-  const withTimeout = (p, ms, label) => Promise.race([
-    Promise.resolve().then(() => p),
-    new Promise((_, rej) => setTimeout(() => rej(new Error(`${label} timed out after ${ms}ms`)), ms)),
-  ]);
-  try { await withTimeout(mfs.importContent("content.drumee.com/Wallpapers"), 30000, "importContent"); }
-  catch (e) { console.warn("Skipped wallpaper import:", e && e.message); }
-  try { await withTimeout(mfs.importTutorial(), 30000, "importTutorial"); }
-  catch (e) { console.warn("Skipped tutorial import:", e && e.message); }
+  // const withTimeout = (p, ms, label) => Promise.race([
+  //   Promise.resolve().then(() => p),
+  //   new Promise((_, rej) => setTimeout(() => rej(new Error(`${label} timed out after ${ms}ms`)), ms)),
+  // ]);
+  // try { await withTimeout(mfs.importContent("content.drumee.com/Wallpapers"), 30000, "importContent"); }
+  // catch (e) { console.warn("Skipped wallpaper import:", e && e.message); }
+  // try { await withTimeout(mfs.importTutorial(), 30000, "importTutorial"); }
+  // catch (e) { console.warn("Skipped tutorial import:", e && e.message); }
   /* TO DO: import or create robot.txt */
   await afterInstall(reset_link, domain)
 }
