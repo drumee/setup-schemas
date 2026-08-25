@@ -1,7 +1,7 @@
 # Drumee Schemas Setup Tools
 
 `@drumee/setup-schemas` bootstraps a fresh **Drumee** instance's database and initial
-data. After [`setup-infra`](../setup-infra) has written the configuration and
+data. After [`setup-infra`](https://github.com/drumee/setup-infra) has written the configuration and
 credentials, this package creates the MariaDB application user, builds the schemas, and
 provisions the system accounts, hubs, and seed media that a usable instance needs.
 
@@ -11,7 +11,7 @@ npm i @drumee/setup-schemas
 
 It is normally invoked by the Drumee install pipeline (the `drumee-schemas` Debian
 package), not run by hand. For how it relates to the other repos, see
-[`setup-infra/DOCUMENTATION.md`](../setup-infra/DOCUMENTATION.md).
+[`setup-infra/DOCUMENTATION.md`](https://github.com/drumee/setup-infra/blob/main/DOCUMENTATION.md).
 
 ## What it does
 
@@ -113,4 +113,4 @@ This package is intended to be used by @drumee/setup-infra
 This module is used **internally by the Drumee Docker container or Drumee Bare Metall installer** on first boot.  
 You don’t need to run it manually unless you are developing Drumee.
 
-### For end users: just use our [Quickstart](https://docs.drumee.org/getting-started/02-own-cloud#option-a--docker-recommended)
+### For end users: just use our [Quickstart](https://docs.drumee.com/getting-started/02-own-cloud#option-a--docker-recommended)
